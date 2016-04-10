@@ -8,20 +8,25 @@
 
 /* Begin PBXBuildFile section */
 		7CD0B1CE1CB95FCD00EB3D70 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7CD0B1CD1CB95FCD00EB3D70 /* AppDelegate.swift */; };
-		7CD0B1D01CB95FCD00EB3D70 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7CD0B1CF1CB95FCD00EB3D70 /* ViewController.swift */; };
 		7CD0B1D31CB95FCD00EB3D70 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 7CD0B1D11CB95FCD00EB3D70 /* Main.storyboard */; };
 		7CD0B1D51CB95FCD00EB3D70 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 7CD0B1D41CB95FCD00EB3D70 /* Assets.xcassets */; };
 		7CD0B1D81CB95FCD00EB3D70 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 7CD0B1D61CB95FCD00EB3D70 /* LaunchScreen.storyboard */; };
+		7CD0B1E11CB960E500EB3D70 /* CloudKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 7CD0B1E01CB960E500EB3D70 /* CloudKit.framework */; };
+		7CD0B1E31CB9650E00EB3D70 /* PhotoCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7CD0B1E21CB9650E00EB3D70 /* PhotoCell.swift */; };
+		7CD0B1E51CB9656F00EB3D70 /* SelfieCVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7CD0B1E41CB9656F00EB3D70 /* SelfieCVC.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
 		7CD0B1CA1CB95FCD00EB3D70 /* Silly Selfie.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Silly Selfie.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		7CD0B1CD1CB95FCD00EB3D70 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
-		7CD0B1CF1CB95FCD00EB3D70 /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
 		7CD0B1D21CB95FCD00EB3D70 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
 		7CD0B1D41CB95FCD00EB3D70 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		7CD0B1D71CB95FCD00EB3D70 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		7CD0B1D91CB95FCD00EB3D70 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		7CD0B1DF1CB960E200EB3D70 /* Silly Selfie.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.xml; path = "Silly Selfie.entitlements"; sourceTree = "<group>"; };
+		7CD0B1E01CB960E500EB3D70 /* CloudKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CloudKit.framework; path = System/Library/Frameworks/CloudKit.framework; sourceTree = SDKROOT; };
+		7CD0B1E21CB9650E00EB3D70 /* PhotoCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PhotoCell.swift; sourceTree = "<group>"; };
+		7CD0B1E41CB9656F00EB3D70 /* SelfieCVC.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SelfieCVC.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -29,6 +34,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				7CD0B1E11CB960E500EB3D70 /* CloudKit.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -38,6 +44,7 @@
 		7CD0B1C11CB95FCC00EB3D70 = {
 			isa = PBXGroup;
 			children = (
+				7CD0B1E01CB960E500EB3D70 /* CloudKit.framework */,
 				7CD0B1CC1CB95FCD00EB3D70 /* Silly Selfie */,
 				7CD0B1CB1CB95FCD00EB3D70 /* Products */,
 			);
@@ -54,9 +61,11 @@
 		7CD0B1CC1CB95FCD00EB3D70 /* Silly Selfie */ = {
 			isa = PBXGroup;
 			children = (
+				7CD0B1DF1CB960E200EB3D70 /* Silly Selfie.entitlements */,
 				7CD0B1CD1CB95FCD00EB3D70 /* AppDelegate.swift */,
-				7CD0B1CF1CB95FCD00EB3D70 /* ViewController.swift */,
 				7CD0B1D11CB95FCD00EB3D70 /* Main.storyboard */,
+				7CD0B1E21CB9650E00EB3D70 /* PhotoCell.swift */,
+				7CD0B1E41CB9656F00EB3D70 /* SelfieCVC.swift */,
 				7CD0B1D41CB95FCD00EB3D70 /* Assets.xcassets */,
 				7CD0B1D61CB95FCD00EB3D70 /* LaunchScreen.storyboard */,
 				7CD0B1D91CB95FCD00EB3D70 /* Info.plist */,
@@ -96,6 +105,12 @@
 				TargetAttributes = {
 					7CD0B1C91CB95FCC00EB3D70 = {
 						CreatedOnToolsVersion = 7.3;
+						DevelopmentTeam = 5K99777NES;
+						SystemCapabilities = {
+							com.apple.iCloud = {
+								enabled = 1;
+							};
+						};
 					};
 				};
 			};
@@ -135,8 +150,9 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				7CD0B1D01CB95FCD00EB3D70 /* ViewController.swift in Sources */,
+				7CD0B1E31CB9650E00EB3D70 /* PhotoCell.swift in Sources */,
 				7CD0B1CE1CB95FCD00EB3D70 /* AppDelegate.swift in Sources */,
+				7CD0B1E51CB9656F00EB3D70 /* SelfieCVC.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -251,7 +267,9 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_ENTITLEMENTS = "Silly Selfie/Silly Selfie.entitlements";
 				INFOPLIST_FILE = "Silly Selfie/Info.plist";
+				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = "com.kiloloco.Silly-Selfie";
 				PRODUCT_NAME = "$(TARGET_NAME)";
@@ -262,7 +280,9 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_ENTITLEMENTS = "Silly Selfie/Silly Selfie.entitlements";
 				INFOPLIST_FILE = "Silly Selfie/Info.plist";
+				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = "com.kiloloco.Silly-Selfie";
 				PRODUCT_NAME = "$(TARGET_NAME)";
