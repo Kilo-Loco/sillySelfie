@@ -7,32 +7,95 @@
 //
 
 import UIKit
+import CloudKit
 
-private let reuseIdentifier = "Cell"
+private let reuseIdentifier = "PhotoCell"
 
-class SelfieCVC: UICollectionViewController {
-
+class SelfieCVC: UICollectionViewController, UIImagePickerControllerDelegate, UINavigationControllerDelegate {
+    
+    var picker: UIImagePickerController?
+    var capturedImage: UIImage!
+    var selfies = [CKRecord]()
+    var refresh: UIRefreshControl!
+    
     override func viewDidLoad() {
         super.viewDidLoad()
-
-        // Uncomment the following line to preserve selection between presentations
-        // self.clearsSelectionOnViewWillAppear = false
+        
+        self.refresh = UIRefreshControl()
+        self.refresh.attributedTitle = NSAttributedString(string: "Pull to refresh.")
+        self.refresh.addTarget(self, action: #selector(self.loadData), forControlEvents: .ValueChanged)
+        self.collectionView?.addSubview(self.refresh)
+        
+        self.picker?.delegate = self
+        self.picker?.sourceType = .PhotoLibrary
 
         // Register cell classes
-        self.collectionView!.registerClass(UICollectionViewCell.self, forCellWithReuseIdentifier: reuseIdentifier)
-
-        // Do any additional setup after loading the view.
+        //self.collectionView!.registerClass(UICollectionViewCell.self, forCellWithReuseIdentifier: "PhotoCell")
+        self.collectionView?.registerClass(PhotoCell.self, forCellWithReuseIdentifier: reuseIdentifier)
+        self.loadData()
     }
-
+    
     @IBAction func addPhoto(sender: AnyObject) {
         
+        // Image picker camera logic
+        self.picker = UIImagePickerController()
+        picker?.sourceType = .Camera
+        presentViewController(picker!, animated: true, completion: nil)
+    }
+    
+    func imagePickerController(picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [String : AnyObject]) {
+        
+        // Captured image formatting
+        self.capturedImage = info[UIImagePickerControllerOriginalImage] as? UIImage
+        dismissViewControllerAnimated(true, completion: nil)
+        
+        // Image conversion and push to Cloud
+        guard self.capturedImage != nil else {
+            print("Missing Image")
+            return
+        }
+        let imageData: NSData = UIImageJPEGRepresentation(self.capturedImage, 1)!
+        let newSelfie = CKRecord(recordType: "Selfie")
+        newSelfie["imageData"] = imageData
+        
+        let publicData = CKContainer.defaultContainer().publicCloudDatabase
+        publicData.saveRecord(newSelfie) { (record: CKRecord?, error: NSError?) in
+            guard error == nil else {
+                print(error.debugDescription)
+                return
+            }
+            
+            dispatch_async(dispatch_get_main_queue(), { 
+                self.collectionView?.performBatchUpdates({ 
+                    self.selfies.insert(newSelfie, atIndex: 0)
+                    let indexPath = NSIndexPath(forItem: 0, inSection: 0)
+                    self.collectionView?.insertItemsAtIndexPaths([indexPath])
+                    }, completion: nil)
+            })
+        }
+    }
+    
+    func loadData() {
+        self.selfies = [CKRecord]()
+        
+        let publicData = CKContainer.defaultContainer().publicCloudDatabase
+        let query = CKQuery(recordType: "Selfie", predicate: NSPredicate(format: "TRUEPREDICATE", argumentArray: nil))
+        query.sortDescriptors = [NSSortDescriptor(key: "creationDate", ascending: false)]
+        
+        publicData.performQuery(query, inZoneWithID: nil) { (results: [CKRecord]?, error: NSError?) in
+            guard let loadedSelfies = results else {
+                print(error)
+                return
+            }
+            self.selfies = loadedSelfies
+            dispatch_async(dispatch_get_main_queue(), { 
+                self.collectionView?.reloadData()
+                self.refresh.endRefreshing()
+            })
+        }
     }
     
     
-    override func didReceiveMemoryWarning() {
-        super.didReceiveMemoryWarning()
-        // Dispose of any resources that can be recreated.
-    }
 
     /*
     // MARK: - Navigation
@@ -48,21 +111,35 @@ class SelfieCVC: UICollectionViewController {
 
     override func numberOfSectionsInCollectionView(collectionView: UICollectionView) -> Int {
         // #warning Incomplete implementation, return the number of sections
-        return 0
+        return 1
     }
 
 
     override func collectionView(collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         // #warning Incomplete implementation, return the number of items
-        return 0
+        return self.selfies.count
     }
 
     override func collectionView(collectionView: UICollectionView, cellForItemAtIndexPath indexPath: NSIndexPath) -> UICollectionViewCell {
-        let cell = collectionView.dequeueReusableCellWithReuseIdentifier(reuseIdentifier, forIndexPath: indexPath)
+        if let cell = collectionView.dequeueReusableCellWithReuseIdentifier(reuseIdentifier, forIndexPath: indexPath) as? PhotoCell {
     
         // Configure the cell
-    
-        return cell
+            guard self.selfies.count > 0 else {
+                return cell
+            }
+            let selfie = self.selfies[indexPath.item]
+            
+            guard let selfieData = selfie["imageData"] as? NSData else {
+                return cell
+            }
+            cell.configureCell(selfieData)
+            
+            return cell
+            
+        } else {
+            return UICollectionViewCell()
+        }
+        
     }
 
     // MARK: UICollectionViewDelegate
